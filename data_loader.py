@@ -1,41 +1,46 @@
-#!/usr/bin/env python
-# -*- coding: utf-8
+import torchvision.transforms as transforms
 
-from __future__ import absolute_import
+from datasets import AVADataset
+from torch.utils.data import DataLoader
 
-import os
 
-import pandas as pd
-from PIL import Image
+def get_data_loader(opt):
+    if opt.is_train:
+        transform = transforms.Compose([
+            transforms.Scale(256),
+            transforms.RandomCrop(224),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor()])
+        dataset = AVADataset(csv_file=opt.train_csv_file, root_dir=opt.train_img_path, transform=transform)
+        batch_size = opt.train_batch_size
+    else:
+        transform = transforms.Compose([
+            transforms.Scale(256),
+            transforms.RandomCrop(224),
+            transforms.ToTensor()])
+        dataset = AVADataset(csv_file=opt.test_csv_file, root_dir=opt.test_img_path, transform=transform)
+        batch_size = opt.val_batch_size
 
-import torch
-from torch.utils import data
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=opt.is_train > 0,
+        num_workers=opt.num_workers)
 
-class AVADataset(data.Dataset):
-    """AVA dataset
 
-    Args:
-        csv_file: a 11-column csv_file, column one contains the names of image files, column 2-11 contains the empiricial distributions of ratings
-        root_dir: directory to the images
-        transform: preprocessing and augmentation of the training images
-    """
+def get_val_data_loader(opt):
+    if not opt.is_validation:
+        return None
 
-    def __init__(self, csv_file, root_dir, transform=None):
-        self.annotations = pd.read_csv(csv_file, index_col=0)
-        self.root_dir = root_dir
-        self.transform = transform
+    transform = transforms.Compose([
+        transforms.Scale(256),
+        transforms.RandomCrop(224),
+        transforms.ToTensor()])
+    dataset = AVADataset(csv_file=opt.val_csv_file, root_dir=opt.val_img_path, transform=transform)
+    batch_size = opt.val_batch_size
 
-    def __len__(self):
-        return len(self.annotations)
-
-    def __getitem__(self, idx):
-        img_name = os.path.join(self.root_dir, str(self.annotations.iloc[idx, 0]) + '.jpg')
-        image = Image.open(img_name)
-        annotations = self.annotations.iloc[idx, 1:].as_matrix()
-        annotations = annotations.astype('float').reshape(-1, 1)
-        sample = {'img_id': img_name, 'image': image, 'annotations': annotations}
-
-        if self.transform:
-            sample['image'] = self.transform(sample['image'])
-
-        return sample
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=opt.is_train > 0,
+        num_workers=opt.num_workers)
