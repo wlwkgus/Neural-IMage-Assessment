@@ -119,7 +119,7 @@ class Visualizer():
                 'legend': self.plot_data['legend'],
                 'xlabel': 'step',
                 'ylabel': 'loss'},
-            win=self.display_id)
+            win=display_id)
 
     # errors: same format as |errors| of plotCurrentErrors
     def print_current_errors(self, epoch, iter_count, errors, t):
