@@ -32,7 +32,7 @@ def main(option):
     model = NIMA(base_model)
 
     if option.warm_start:
-        model.load_state_dict(torch.load(os.path.join(option.ckpt_path, 'epoch-%d.pkl' % option.warm_start_epoch)))
+        model.load_state_dict(torch.load(os.path.join(option.ckpt_dir, 'epoch-%d.pkl' % option.warm_start_epoch)))
         print('Successfully loaded model epoch-%d.pkl' % option.warm_start_epoch)
 
     if option.multi_gpu:
@@ -153,7 +153,7 @@ def main(option):
                 init_val_loss = avg_val_loss
                 # save model weights if val loss decreases
                 print('Saving model...')
-                torch.save(model.state_dict(), os.path.join(option.ckpt_path, 'epoch-%d.pkl' % (epoch + 1)))
+                torch.save(model.state_dict(), os.path.join(option.ckpt_dir, 'epoch-%d.pkl' % (epoch + 1)))
                 print('Done.\n')
                 # reset count
                 count = 0
