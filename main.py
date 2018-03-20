@@ -96,11 +96,11 @@ def main(option):
                     ('batch_loss', loss.data[0]),
                     ('none', 0.)
                 ]))
-                visualizer.plot_current_nums(epoch * len(data_loader) + i, 0, OrderedDict([
-                    ('conv_base_lr', conv_base_lr),
-                    ('dense_lr', dense_lr)
-                ]),
-                                             display_id=2, title='lrs')
+                # visualizer.plot_current_nums(epoch * len(data_loader) + i, 0, OrderedDict([
+                #     ('conv_base_lr', conv_base_lr),
+                #     ('dense_lr', dense_lr)
+                # ]),
+                #                              display_id=2, title='lrs')
 
 
                 # lrs.send('train_emd_loss', loss.data[0])
