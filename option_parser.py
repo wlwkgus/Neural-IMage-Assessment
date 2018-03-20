@@ -73,7 +73,6 @@ class OptionParser(object):
 
         # misc
         self.parser.add_argument('--multi_gpu', type=bool, default=False)
-        self.parser.add_argument('--gpu_ids', type=list, default=None)
         self.parser.add_argument('--warm_start', type=bool, default=False)
         self.parser.add_argument('--warm_start_epoch', type=int, default=0)
         self.parser.add_argument('--early_stopping_patience', type=int, default=5)
