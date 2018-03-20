@@ -65,7 +65,7 @@ class AVADataset(data.Dataset):
     """
 
     def __init__(self, csv_file, root_dir, transform=None):
-        self.annotations = pd.read_csv(csv_file)
+        self.annotations = pd.read_csv(csv_file, header=None, usecols=range(1, 12))
         self.root_dir = root_dir
         self.transform = transform
 
