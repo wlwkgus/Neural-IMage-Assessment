@@ -51,6 +51,8 @@ class OptionParser(object):
         self.parser.add_argument('--display_winsize', type=int, default=256, help='display window size')
         self.parser.add_argument('--display_id', type=int, default=1, help='window id of the web display')
         self.parser.add_argument('--display_port', type=int, default=8097, help='visdom port of the web display')
+        self.parser.add_argument('--no_html', action='store_true',
+                                 help='do not save intermediate training results to [opt.ckpt_dir]/[opt.model]/web/')
 
         # input parameters
         self.parser.add_argument('--img_path', type=str, default='./data')

@@ -24,9 +24,9 @@ def split_dataset(ava_path):
     df_val = total.sample(frac=(val_frac / (val_frac + test_frac)))
     total.drop(df_val.index, inplace=True)
     df_test = total
-    df_train.to_csv('ann_train.csv')
-    df_val.to_csv('ann_val.csv')
-    df_test.to_csv('ann_test.csv')
+    df_train.to_csv('ann_train.csv', header=None)
+    df_val.to_csv('ann_val.csv', header=None)
+    df_test.to_csv('ann_test.csv', header=None)
 
 
 class AVADataset(data.Dataset):
