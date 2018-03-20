@@ -11,6 +11,31 @@ from PIL import Image
 import torch
 from torch.utils import data
 
+not_included = [
+    953619,
+    953958,
+    954184,
+    954113,
+    953980,
+    954175,
+    953349,
+    953645,
+    953897,
+    953841,
+    310261,
+    848725,
+    444892,
+    567829,
+    398594,
+    638163,
+    397289,
+    104855,
+    11066,
+    148477,
+    52365,
+    430454,
+]
+
 
 def split_dataset(ava_path):
     train_frac = 0.7
@@ -19,6 +44,7 @@ def split_dataset(ava_path):
 
     total = pd.read_csv(ava_path, delimiter=' ', header=None)
     total = total.loc[:, 1:11]
+    total = total[~total[1].isin(not_included)]
     df_train = total.sample(frac=train_frac)
     total.drop(df_train.index, inplace=True)
     df_val = total.sample(frac=(val_frac / (val_frac + test_frac)))
