@@ -21,7 +21,7 @@ def split_dataset(ava_path):
     total = total.loc[:, 1:11]
     df_train = total.sample(frac=train_frac)
     total.drop(df_train.index, inplace=True)
-    df_val = total.sample(frac=(val_frac / (val_frac + test_frac)), inplace=True)
+    df_val = total.sample(frac=(val_frac / (val_frac + test_frac)))
     total.drop(df_val.index, inplace=True)
     df_test = total
     df_train.to_csv('ann_train.csv')
