@@ -92,21 +92,21 @@ def main(option):
 
                 optimizer.step()
 
-                visualizer.plot_current_nums(epoch + 1, 0, OrderedDict([
+                visualizer.plot_current_nums(epoch * len(data_loader) + i, 0, OrderedDict([
                     ('batch_loss', loss.data[0]),
                     ('none', 0.)
                 ]))
-                visualizer.plot_current_nums(epoch + 1, 0, OrderedDict([
-                    ('batch_loss', loss.data[0]),
-                    ('none', 0.)
+                visualizer.plot_current_nums(epoch * len(data_loader) + i, 0, OrderedDict([
+                    ('conv_base_lr', conv_base_lr),
+                    ('dense_lr', dense_lr)
                 ]),
                                              display_id=2, title='lrs')
 
 
                 # lrs.send('train_emd_loss', loss.data[0])
-                print('Epoch: %d/%d | Step: %d/%d | Training EMD loss: %.4f' % (epoch + 1, option.epochs, i + 1, len(data_loader) // option.train_batch_size + 1, loss.data[0]))
+                print('Epoch: %d/%d | Step: %d/%d | Training EMD loss: %.4f' % (epoch + 1, option.epochs, i + 1, len(data_loader), loss.data[0]))
 
-            avg_loss = sum(batch_losses) / (len(data_loader) // option.train_batch_size + 1)
+            avg_loss = sum(batch_losses) / (len(data_loader))
             train_losses.append(avg_loss)
             print('Epoch %d averaged training EMD loss: %.4f' % (epoch + 1, avg_loss))
 
