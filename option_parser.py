@@ -42,8 +42,7 @@ class OptionParser(object):
         self.parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids ex) 0,1,2')
         self.parser.add_argument('--ckpt_dir', type=str, default='./ckpt/', help='checkpoint dir')
         self.parser.add_argument('--model', type=str, default='NIMA', help='name of model')
-        self.parser.add_argument('--lr', type=float, default=1e-3, help='learning rate')
-        self.parser.add_argument('--epoch', type=int, default=100, help='epoch')
+        self.parser.add_argument('--epoch', type=int, default=20, help='epoch')
         self.parser.add_argument('--initial_size', type=int, default=784, help='initial tensor size')
         self.parser.add_argument('--label_size', type=int, default=10, help='label size')
         self.parser.add_argument('--eps', type=float, default=1e-8, help='eps')
@@ -54,9 +53,7 @@ class OptionParser(object):
         self.parser.add_argument('--display_port', type=int, default=8097, help='visdom port of the web display')
 
         # input parameters
-        self.parser.add_argument('--train_img_path', type=str, default='/home/data/dataset/AVA/train')
-        self.parser.add_argument('--val_img_path', type=str, default='/home/data/dataset/AVA/val')
-        self.parser.add_argument('--test_img_path', type=str, default='/home/data/dataset/AVA/test')
+        self.parser.add_argument('--img_path', type=str, default='./data')
         self.parser.add_argument('--train_csv_file', type=str, default='./ann_train.csv')
         self.parser.add_argument('--val_csv_file', type=str, default='./ann_val.csv')
         self.parser.add_argument('--test_csv_file', type=str, default='./ann_test.csv')

@@ -7,6 +7,9 @@ from __future__ import division
 import torch
 import torch.nn as nn
 
+# TODO : last layer more
+# TODO : inception v3, VGG, mobile-net
+
 
 class NIMA(nn.Module):
     """Neural IMage Assessment model by Google"""

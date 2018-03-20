@@ -11,14 +11,14 @@ def get_data_loader(opt):
             transforms.RandomCrop(224),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor()])
-        dataset = AVADataset(csv_file=opt.train_csv_file, root_dir=opt.train_img_path, transform=transform)
+        dataset = AVADataset(csv_file=opt.train_csv_file, root_dir=opt.img_path, transform=transform)
         batch_size = opt.train_batch_size
     else:
         transform = transforms.Compose([
             transforms.Scale(256),
             transforms.RandomCrop(224),
             transforms.ToTensor()])
-        dataset = AVADataset(csv_file=opt.test_csv_file, root_dir=opt.test_img_path, transform=transform)
+        dataset = AVADataset(csv_file=opt.test_csv_file, root_dir=opt.img_path, transform=transform)
         batch_size = opt.val_batch_size
 
     return DataLoader(
@@ -36,7 +36,7 @@ def get_val_data_loader(opt):
         transforms.Scale(256),
         transforms.RandomCrop(224),
         transforms.ToTensor()])
-    dataset = AVADataset(csv_file=opt.val_csv_file, root_dir=opt.val_img_path, transform=transform)
+    dataset = AVADataset(csv_file=opt.val_csv_file, root_dir=opt.img_path, transform=transform)
     batch_size = opt.val_batch_size
 
     return DataLoader(
