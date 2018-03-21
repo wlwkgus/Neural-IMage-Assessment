@@ -65,16 +65,20 @@ def main(option):
     for param in model.parameters():
         param_num += int(np.prod(param.shape))
     print('Trainable params: %.2f million' % (param_num / 1e6))
+    if torch.cuda.is_available():
+        Tensor = torch.cuda.FloatTensor
+    else:
+        Tensor = torch.FloatTensor
 
     if option.is_train:
         # for early stopping
-        images = torch.FloatTensor(
+        images = Tensor(
             option.train_batch_size,
             3,
             224,
             224
         )
-        labels = torch.FloatTensor(
+        labels = Tensor(
             option.train_batch_size,
             10
         )
