@@ -29,6 +29,7 @@ def main(option):
     val_data_loader = get_val_data_loader(option)
 
     base_model = models.vgg16(pretrained=True)
+    base_model.cuda()
     model = NIMA(base_model)
 
     if option.warm_start:
