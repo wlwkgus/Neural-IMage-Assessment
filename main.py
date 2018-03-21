@@ -91,7 +91,7 @@ def main(option):
             batch_losses = []
             for i, data in enumerate(data_loader):
                 images.resize_(data['image'].size()).copy_(data['image'])
-                labels.resize_(data['annotations'].size()).copy_(data['annotations'].float())
+                labels.resize_(data['annotations'].size()).copy_(data['annotations'])
                 if torch.cuda.is_available():
                     images.cuda()
                     labels.cuda()
