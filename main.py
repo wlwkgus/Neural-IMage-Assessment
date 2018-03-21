@@ -150,7 +150,11 @@ def main(option):
                 outputs = outputs.view(-1, 10, 1)
                 val_loss = emd_loss(autograd.Variable(labels, volatile=True), outputs)
                 batch_val_losses.append(val_loss.data[0])
-            avg_val_loss = sum(batch_val_losses) / (len(val_data_loader))
+                # TODO : because memory issue, drop last.
+                if i >= len(val_data_loader) - 2:
+                    break
+
+            avg_val_loss = sum(batch_val_losses) / (len(val_data_loader) - 1)
             val_losses.append(avg_val_loss)
             model.train()
 

@@ -42,5 +42,5 @@ def get_val_data_loader(opt):
     return DataLoader(
         dataset,
         batch_size=batch_size,
-        shuffle=opt.is_train > 0,
+        shuffle=False,
         num_workers=opt.num_workers)
