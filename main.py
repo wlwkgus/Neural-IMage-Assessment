@@ -142,7 +142,7 @@ def main(option):
 
             # do validation after each epoch
             batch_val_losses = []
-            for data in val_data_loader:
+            for i, data in enumerate(val_data_loader):
                 images.resize_(data['image'].size()).copy_(data['image'])
                 labels.resize_(data['annotations'].size()).copy_(data['annotations'])
                 model.eval()
@@ -151,7 +151,7 @@ def main(option):
                 outputs = outputs.view(-1, 10, 1)
                 val_loss = emd_loss(autograd.Variable(labels), outputs)
                 batch_val_losses.append(val_loss.data[0])
-            avg_val_loss = sum(batch_val_losses) / (len(val_data_loader) // option.val_batch_size + 1)
+            avg_val_loss = sum(batch_val_losses) / (len(val_data_loader))
             val_losses.append(avg_val_loss)
 
             # lrs.send('val_emd_loss', avg_val_loss)
