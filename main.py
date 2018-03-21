@@ -136,8 +136,9 @@ def main(option):
                 if torch.cuda.is_available():
                     images = images.cuda()
                     labels = labels.cuda()
-                with torch.no_grad():
-                    outputs = model(images)
+                model.eval()
+                outputs = model(images)
+                model.train()
                 outputs = outputs.view(-1, 10, 1)
                 val_loss = emd_loss(labels, outputs)
                 batch_val_losses.append(val_loss.data[0])
