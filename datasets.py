@@ -7,8 +7,9 @@ import os
 
 import pandas as pd
 from PIL import Image
+from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-import torch
 from torch.utils import data
 
 not_included = [
@@ -38,8 +39,8 @@ not_included = [
 
 
 def split_dataset(ava_path):
-    train_frac = 0.7
-    val_frac = 0.1
+    train_frac = 0.75
+    val_frac = 0.05
     test_frac = 0.2
 
     total = pd.read_csv(ava_path, delimiter=' ', header=None)

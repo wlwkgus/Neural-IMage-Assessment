@@ -92,9 +92,6 @@ def main(option):
             for i, data in enumerate(data_loader):
                 images.resize_(data['image'].size()).copy_(data['image'])
                 labels.resize_(data['annotations'].size()).copy_(data['annotations'])
-                if torch.cuda.is_available():
-                    images.cuda()
-                    labels.cuda()
                 outputs = model(autograd.Variable(images, requires_grad=True))
                 outputs = outputs.view(-1, 10, 1)
 
@@ -147,12 +144,9 @@ def main(option):
             batch_val_losses = []
             for data in val_data_loader:
                 images.resize_(data['image'].size()).copy_(data['image'])
-                labels.resize_(data['annotations'].size()).copy_(data['annotations'].float())
-                if torch.cuda.is_available():
-                    images.cuda()
-                    labels.cuda()
+                labels.resize_(data['annotations'].size()).copy_(data['annotations'])
                 model.eval()
-                outputs = model(autograd.Variable(images))
+                outputs = model(autograd.Variable(images, volatile=True))
                 model.train()
                 outputs = outputs.view(-1, 10, 1)
                 val_loss = emd_loss(autograd.Variable(labels), outputs)
