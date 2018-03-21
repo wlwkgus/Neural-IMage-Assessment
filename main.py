@@ -67,6 +67,16 @@ def main(option):
 
     if option.is_train:
         # for early stopping
+        images = torch.FloatTensor(
+            option.train_batch_size,
+            3,
+            224,
+            224
+        )
+        labels = torch.FloatTensor(
+            option.train_batch_size,
+            10
+        )
         count = 0
         visualizer = Visualizer(option)
         init_val_loss = float('inf')
@@ -75,17 +85,17 @@ def main(option):
         for epoch in range(option.warm_start_epoch, option.epochs):
             batch_losses = []
             for i, data in enumerate(data_loader):
-                images = autograd.Variable(data['image'])
-                labels = autograd.Variable(data['annotations']).float()
+                images.resize_(data['image'].size()).copy_(data['img'])
+                labels.resize_(data['annotations'].size()).copy_(data['label'].float())
                 if torch.cuda.is_available():
-                    images = images.cuda()
-                    labels = labels.cuda()
-                outputs = model(images)
+                    images.cuda()
+                    labels.cuda()
+                outputs = model(autograd.Variable(images, requires_grad=True))
                 outputs = outputs.view(-1, 10, 1)
 
                 optimizer.zero_grad()
 
-                loss = emd_loss(labels, outputs)
+                loss = emd_loss(autograd.Variable(labels), outputs)
                 batch_losses.append(loss.data[0])
 
                 loss.backward()
@@ -131,16 +141,16 @@ def main(option):
             # do validation after each epoch
             batch_val_losses = []
             for data in val_data_loader:
-                images = autograd.Variable(data['image'])
-                labels = autograd.Variable(data['annotations']).float()
+                images.resize_(data['image'].size()).copy_(data['img'])
+                labels.resize_(data['annotations'].size()).copy_(data['label'].float())
                 if torch.cuda.is_available():
-                    images = images.cuda()
-                    labels = labels.cuda()
+                    images.cuda()
+                    labels.cuda()
                 model.eval()
-                outputs = model(images)
+                outputs = model(autograd.Variable(images))
                 model.train()
                 outputs = outputs.view(-1, 10, 1)
-                val_loss = emd_loss(labels, outputs)
+                val_loss = emd_loss(autograd.Variable(labels), outputs)
                 batch_val_losses.append(val_loss.data[0])
             avg_val_loss = sum(batch_val_losses) / (len(val_data_loader) // option.val_batch_size + 1)
             val_losses.append(avg_val_loss)
