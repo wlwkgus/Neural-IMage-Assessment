@@ -149,9 +149,9 @@ def main(option):
                 outputs = model(autograd.Variable(images, volatile=True))
                 model.train()
                 outputs = outputs.view(-1, 10, 1)
-                val_loss = emd_loss(autograd.Variable(labels), outputs)
+                val_loss = emd_loss(autograd.Variable(labels, volatile=True), outputs)
                 batch_val_losses.append(val_loss.data[0])
-            avg_val_loss = sum(batch_val_losses) / (len(val_data_loader))
+            avg_val_loss = sum(batch_val_losses) / (len(val_data_loader) * opt.val_batch_size)
             val_losses.append(avg_val_loss)
 
             # lrs.send('val_emd_loss', avg_val_loss)
