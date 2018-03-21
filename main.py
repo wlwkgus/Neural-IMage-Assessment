@@ -85,8 +85,8 @@ def main(option):
         for epoch in range(option.warm_start_epoch, option.epochs):
             batch_losses = []
             for i, data in enumerate(data_loader):
-                images.resize_(data['image'].size()).copy_(data['img'])
-                labels.resize_(data['annotations'].size()).copy_(data['label'].float())
+                images.resize_(data['image'].size()).copy_(data['image'])
+                labels.resize_(data['annotations'].size()).copy_(data['annotations'].float())
                 if torch.cuda.is_available():
                     images.cuda()
                     labels.cuda()
@@ -141,8 +141,8 @@ def main(option):
             # do validation after each epoch
             batch_val_losses = []
             for data in val_data_loader:
-                images.resize_(data['image'].size()).copy_(data['img'])
-                labels.resize_(data['annotations'].size()).copy_(data['label'].float())
+                images.resize_(data['image'].size()).copy_(data['image'])
+                labels.resize_(data['annotations'].size()).copy_(data['annotations'].float())
                 if torch.cuda.is_available():
                     images.cuda()
                     labels.cuda()
