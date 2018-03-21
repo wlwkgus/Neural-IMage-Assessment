@@ -46,10 +46,10 @@ def split_dataset(ava_path):
     total = total.loc[:, 1:11]
     # normalize total
     total[12] = total.iloc[:, 2:].sum(axis=1)
-    new_total = total.loc[2:, :11].div(total[12], axis=0)
-    new_total[1] = total.loc[:, 1]
-    new_total = new_total[list(range(1, 12))]
-    total = new_total[~total[1].isin(not_included)]
+    for i in range(2, 12):
+        total[i] = total[i] / total[12]
+    total = total.loc[:, 1:11]
+    total = total[~total[1].isin(not_included)]
     df_train = total.sample(frac=train_frac)
     total.drop(df_train.index, inplace=True)
     df_val = total.sample(frac=(val_frac / (val_frac + test_frac)))
