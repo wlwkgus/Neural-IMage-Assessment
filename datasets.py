@@ -106,14 +106,14 @@ class TestDataset(data.Dataset):
         self.root_dir = root_dir
         self.transform = transform
         self.full_image_path = os.path.join(self.root_dir, self.image_dir)
-        self.image_names = glob(self.full_image_path + '/*.jpg')
+        self.image_names = glob(self.full_image_path + '/*.jpeg')
 
     def __len__(self):
         return len(self.image_names)
 
     def __getitem__(self, idx):
         img_name = self.image_names[idx]
-        image = Image.open(os.path.join(self.full_image_path, img_name))
+        image = Image.open(img_name)
         sample = dict()
         sample['image'] = image
         sample['image_name'] = img_name

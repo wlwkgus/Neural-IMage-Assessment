@@ -17,6 +17,7 @@ def get_data_loader(opt):
         transform = transforms.Compose([
             transforms.Resize(256),
             transforms.RandomCrop(224),
+            transforms.ToTensor()
             ])
         dataset = TestDataset(image_dir=opt.test_image_dir, root_dir=opt.test_path, transform=transform)
         batch_size = 1

@@ -198,7 +198,7 @@ def main(option):
             image = data['image']
             if torch.cuda.is_available():
                 image = image.cuda()
-            output = model(image)
+            output = model(torch.autograd.Variable(image))
             output = output.view(10, 1)
             predicted_mean, predicted_std = 0.0, 0.0
             for i, elem in enumerate(output, 1):
