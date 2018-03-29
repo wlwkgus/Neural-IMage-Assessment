@@ -210,6 +210,7 @@ def main(option):
             std_preds.append(predicted_std.data[0])
             names.append(data['image_name'])
         # Do what you want with predicted and std...
+        print(">> {}".format(np.asarray(mean_preds).mean()))
 
 
 if __name__ == '__main__':
