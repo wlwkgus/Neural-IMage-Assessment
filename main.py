@@ -205,7 +205,7 @@ def main(option):
                 predicted_mean += i * elem
             for j, elem in enumerate(output, 1):
                 predicted_std += elem * (j - predicted_mean) ** 2
-            print("{} : {} +- {}".format(data['image_name'], predicted_mean, predicted_std))
+            print("{} : {} +- {}".format(data['image_name'][0], predicted_mean.data, predicted_std.data))
             mean_preds.append(predicted_mean)
             std_preds.append(predicted_std)
             names.append(data['image_name'])
