@@ -8,6 +8,7 @@ import os
 import pandas as pd
 from PIL import Image
 from PIL import ImageFile
+from glob import glob
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 from torch.utils import data
@@ -39,9 +40,9 @@ not_included = [
 
 
 def split_dataset(ava_path):
-    train_frac = 0.75
+    train_frac = 0.95
     val_frac = 0.05
-    test_frac = 0.2
+    test_frac = 0.0
 
     total = pd.read_csv(ava_path, delimiter=' ', header=None)
     total = total.loc[:, 1:11]
@@ -85,6 +86,37 @@ class AVADataset(data.Dataset):
         annotations = annotations.astype('float').reshape(-1, 1)
         sample = {'img_id': img_name, 'image': image, 'annotations': annotations}
 
+        if self.transform:
+            sample['image'] = self.transform(sample['image'])
+
+        return sample
+
+
+class TestDataset(data.Dataset):
+    """
+    Custom dataset.
+    Scan all jpg files in given image directory.
+
+    Args:
+        image_dir: image_dir
+    """
+
+    def __init__(self, image_dir, root_dir, transform=None):
+        self.image_dir = image_dir
+        self.root_dir = root_dir
+        self.transform = transform
+        self.full_image_path = os.path.join(self.root_dir, self.image_dir)
+        self.image_names = glob(self.full_image_path + '/*.jpg')
+
+    def __len__(self):
+        return len(self.image_names)
+
+    def __getitem__(self, idx):
+        img_name = self.image_names[idx]
+        image = Image.open(os.path.join(self.full_image_path, img_name))
+        sample = dict()
+        sample['image'] = image
+        sample['image_name'] = img_name
         if self.transform:
             sample['image'] = self.transform(sample['image'])
 

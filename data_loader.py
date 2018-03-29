@@ -1,13 +1,13 @@
 import torchvision.transforms as transforms
 
-from datasets import AVADataset
+from datasets import AVADataset, TestDataset
 from torch.utils.data import DataLoader
 
 
 def get_data_loader(opt):
     if opt.is_train:
         transform = transforms.Compose([
-            transforms.Scale(256),
+            transforms.Resize(256),
             transforms.RandomCrop(224),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor()])
@@ -15,11 +15,11 @@ def get_data_loader(opt):
         batch_size = opt.train_batch_size
     else:
         transform = transforms.Compose([
-            transforms.Scale(256),
+            transforms.Resize(256),
             transforms.RandomCrop(224),
-            transforms.ToTensor()])
-        dataset = AVADataset(csv_file=opt.test_csv_file, root_dir=opt.img_path, transform=transform)
-        batch_size = opt.val_batch_size
+            ])
+        dataset = TestDataset(image_dir=opt.test_image_dir, root_dir=opt.test_path, transform=transform)
+        batch_size = 1
 
     return DataLoader(
         dataset,
@@ -33,7 +33,7 @@ def get_val_data_loader(opt):
         return None
 
     transform = transforms.Compose([
-        transforms.Scale(256),
+        transforms.Resize(256),
         transforms.RandomCrop(224),
         transforms.ToTensor()])
     dataset = AVADataset(csv_file=opt.val_csv_file, root_dir=opt.img_path, transform=transform)

@@ -56,6 +56,8 @@ class OptionParser(object):
 
         # input parameters
         self.parser.add_argument('--img_path', type=str, default='./data')
+        self.parser.add_argument('--test_path', type=str, default='./test')
+        self.parser.add_argument('--test_image_dir', type=str, default='review/bad')
         self.parser.add_argument('--train_csv_file', type=str, default='./ann_train.csv')
         self.parser.add_argument('--val_csv_file', type=str, default='./ann_val.csv')
         self.parser.add_argument('--test_csv_file', type=str, default='./ann_test.csv')

@@ -190,9 +190,10 @@ def main(option):
 
     else:
         # compute mean score
-
+        model.eval()
         mean_preds = []
         std_preds = []
+        names = []
         for data in data_loader:
             image = data['image']
             if torch.cuda.is_available():
@@ -204,8 +205,10 @@ def main(option):
                 predicted_mean += i * elem
             for j, elem in enumerate(output, 1):
                 predicted_std += elem * (j - predicted_mean) ** 2
+            print("{} : {} +- {}".format(data['image_name'], predicted_mean, predicted_std))
             mean_preds.append(predicted_mean)
             std_preds.append(predicted_std)
+            names.append(data['image_name'])
         # Do what you want with predicted and std...
 
 
